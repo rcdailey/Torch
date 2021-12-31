@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <BaseTargetFramework>net6.0</BaseTargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>$(BaseTargetFramework)-windows</TargetFramework>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <DependsOnNETStandard>false</DependsOnNETStandard>
+    <Copyright>Copyright © Torch API 2017</Copyright>
+    <Product>Torch</Product>
+    <Configurations>Release;Debug</Configurations>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(ProjectName.EndsWith('.Tests'))">
+    <PackageReference Include="xunit" />
+  </ItemGroup>
+</Project>

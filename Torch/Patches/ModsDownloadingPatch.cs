@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using NLog;
-using Sandbox;
 using Sandbox.Engine.Networking;
-using Torch.API;
 using Torch.Managers.PatchManager;
-using Torch.Managers.PatchManager.MSIL;
 using Torch.Utils;
-using VRage.Game;
 
 namespace Torch.Patches
 {

@@ -3,13 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Markdown.Xaml;assembly=Markdown.Xaml"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:views="clr-namespace:Torch.Server.Views"
+        xmlns:mdXaml="clr-namespace:MdXaml;assembly=MdXaml"
         mc:Ignorable="d"
         Title="PluginBrowser" Height="557.5" Width="1161"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    
+
     <Window.Resources>
         <Style TargetType="FlowDocument" x:Key="DocumentStyle">
         <Setter Property="FontFamily"
@@ -71,7 +70,7 @@
           <Style.Triggers>
               <Trigger Property="Tag"
                        Value="imageright">
-                  <Setter Property="Margin" 
+                  <Setter Property="Margin"
                           Value="20,0,0,0" />
               </Trigger>
           </Style.Triggers>
@@ -86,7 +85,7 @@
           <Setter Property="StrokeThickness"
                   Value="2" />
       </Style>
-    <local:Markdown x:Key="Markdown"
+    <mdXaml:Markdown x:Key="Markdown"
                         DocumentStyle="{StaticResource DocumentStyle}"
                         Heading1Style="{StaticResource H1Style}"
                         Heading2Style="{StaticResource H2Style}"
@@ -96,12 +95,12 @@
                         ImageStyle="{StaticResource ImageStyle}"
                         SeparatorStyle="{StaticResource SeparatorStyle}"
                         AssetPathRoot="{x:Static system:Environment.CurrentDirectory}"/>
-    
-            <local:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter" 
+
+            <mdXaml:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter"
 Markdown="{StaticResource Markdown}"/>
-    
+
     </Window.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -139,5 +138,3 @@ Markdown="{StaticResource Markdown}"/>
         <FlowDocumentScrollViewer Name="MarkdownFlow" VerticalAlignment="Stretch" Margin="0,3,3,3" Document="{Binding CurrentDescription, Converter={StaticResource TextToFlowDocumentConverter}}" Grid.Column="1"/>
     </Grid>
 </Window>
-    
-    

@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using NLog;
 using Torch.Managers.PatchManager.MSIL;
 using Torch.Managers.PatchManager.Transpile;
-using Torch.Utils;
 
 namespace Torch.Managers.PatchManager
 {
@@ -105,38 +102,6 @@ namespace Torch.Managers.PatchManager
         public const string RESULT_PARAMETER = "__result";
         public const string PREFIX_SKIPPED_PARAMETER = "__prefixSkipped";
         public const string LOCAL_PARAMETER = "__local";
-
-        private void SavePatchedMethod(string target)
-        {
-            var asmBuilder =
-                AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("SomeName"), AssemblyBuilderAccess.RunAndSave, Path.GetDirectoryName(target));
-            var moduleBuilder = asmBuilder.DefineDynamicModule(Path.GetFileNameWithoutExtension(target), Path.GetFileName(target));
-            var typeBuilder = moduleBuilder.DefineType("Test", TypeAttributes.Public);
-
-
-            var methodName = _method.Name + $"_{_patchSalt}";
-            var returnType = _method is MethodInfo meth ? meth.ReturnType : typeof(void);
-            var parameters = _method.GetParameters();
-            var parameterTypes = (_method.IsStatic ? Enumerable.Empty<Type>() : new[] {_method.DeclaringType})
-                .Concat(parameters.Select(x => x.ParameterType)).ToArray();
-
-            var patchMethod = typeBuilder.DefineMethod(methodName, MethodAttributes.Public | MethodAttributes.Static, CallingConventions.Standard,
-                returnType, parameterTypes);
-            if (!_method.IsStatic)
-                patchMethod.DefineParameter(0, ParameterAttributes.None, INSTANCE_PARAMETER);
-            for (var i = 0; i < parameters.Length; i++)
-                patchMethod.DefineParameter((patchMethod.IsStatic ? 0 : 1) + i, parameters[i].Attributes, parameters[i].Name);
-
-            var generator = new LoggingIlGenerator(patchMethod.GetILGenerator(), LogLevel.Trace);
-            List<MsilInstruction> il = EmitPatched((type, pinned) => new MsilLocal(generator.DeclareLocal(type, pinned))).ToList();
-
-            MethodTranspiler.EmitMethod(il, generator);
-
-            Type res = typeBuilder.CreateType();
-            asmBuilder.Save(Path.GetFileName(target));
-            foreach (var method in res.GetMethods(BindingFlags.Public | BindingFlags.Static))
-                _log.Info($"Information " + method);
-        }
 
         public DynamicMethod ComposePatchedMethod()
         {

@@ -3,15 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using NLog;
 using Sandbox;
-using Sandbox.Engine.Networking;
 using Sandbox.Game.Multiplayer;
 using Sandbox.Game.World;
 using Torch.API;
@@ -25,11 +22,6 @@ using Torch.Server.Commands;
 using Torch.Server.Managers;
 using Torch.Utils;
 using VRage;
-using VRage.Dedicated;
-using VRage.Dedicated.RemoteAPI;
-using VRage.GameServices;
-using VRage.Scripting;
-using VRage.Steam;
 using Timer = System.Threading.Timer;
 
 #endregion
@@ -50,7 +42,7 @@ namespace Torch.Server
         private Timer _watchdog;
         private int _players;
         private MultiplayerManagerDedicated _multiplayerManagerDedicated;
-        
+
         internal bool FatalException { get; set; }
 
         private System.Timers.Timer _simUpdateTimer = new System.Timers.Timer(200);
@@ -67,7 +59,7 @@ namespace Torch.Server
 
             var sessionManager = Managers.GetManager<ITorchSessionManager>();
             sessionManager.AddFactory(x => new MultiplayerManagerDedicated(this));
-            
+
             // Needs to be done at some point after MyVRageWindows.Init
             // where the debug listeners are registered
             if (!((TorchConfig)Config).EnableAsserts)
@@ -87,7 +79,7 @@ namespace Torch.Server
 
         public bool HasRun { get => _hasRun; set => SetValue(ref _hasRun, value); }
 
-        
+
         /// <inheritdoc />
         public float SimulationRatio
         {

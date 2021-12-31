@@ -1,31 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Runtime.CompilerServices;
-using System.Windows.Threading;
-using VRage.Game;
+using JetBrains.Annotations;
 using NLog;
-using Sandbox.Engine.Networking;
 using Torch.API;
 using Torch.Server.Managers;
 using Torch.API.Managers;
 using Torch.Server.ViewModels;
-using Torch.Server.Annotations;
 using Torch.Collections;
 using Torch.Utils;
 using Torch.Views;
@@ -46,7 +37,7 @@ namespace Torch.Server.Views
 
         //private List<BindingExpression> _bindingExpressions = new List<BindingExpression>();
         /// <summary>
-        /// Constructor for ModListControl 
+        /// Constructor for ModListControl
         /// </summary>
         public ModListControl()
         {
@@ -106,7 +97,7 @@ namespace Torch.Server.Views
             if (TryExtractId(AddModIDTextBox.Text, out ulong id))
             {
                 var mod = new ModItemInfo(ModItemUtils.Create(id, UgcServiceTypeBox.SelectedValue?.ToString()));
-                
+
                 _instanceManager.DedicatedConfig.Mods.Add(mod);
                 Task.Run(mod.UpdateModInfoAsync)
                     .ContinueWith((t) =>
@@ -295,5 +286,5 @@ namespace Torch.Server.Views
                 _config.UgcServiceType == UGCServiceType.EOS)
                 MessageBox.Show("Steam workshop is not available with current ugc service!");
         }
-    } 
+    }
 }

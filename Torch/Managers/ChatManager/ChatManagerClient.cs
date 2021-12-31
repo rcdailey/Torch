@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 using NLog;
 using Sandbox.Engine.Multiplayer;
 using Sandbox.Engine.Networking;
-using Sandbox.Game.Entities.Character;
 using Sandbox.Game.Gui;
 using Sandbox.Game.Multiplayer;
 using Sandbox.Game.World;
 using Sandbox.ModAPI;
-using SteamKit2.Unified.Internal;
 using Torch.API;
 using Torch.API.Managers;
 using Torch.Utils;
 using VRage.Game;
-using VRageMath;
 using Color = VRageMath.Color;
 
 namespace Torch.Managers.ChatManager
@@ -34,7 +26,7 @@ namespace Torch.Managers.ChatManager
 
         /// <inheritdoc />
         public event MessageSendingDel MessageSending;
-        
+
         /// <inheritdoc />
         public void SendMessageAsSelf(string message)
         {
@@ -48,7 +40,7 @@ namespace Torch.Managers.ChatManager
                         Text = message,
                         Target = 0
                     };
-                    
+
                     var color = Torch.Config.ChatColor;
                     if (StringUtils.IsFontEnum(color))
                         scripted.Font = color;
@@ -56,7 +48,7 @@ namespace Torch.Managers.ChatManager
                         scripted.Font = MyFontEnum.White;
 
                     scripted.Color = ColorUtils.TranslateColor(color);
-                    
+
                     MyMultiplayerBase.SendScriptedChatMessage(ref scripted);
                 }
                 else
@@ -161,7 +153,7 @@ namespace Torch.Managers.ChatManager
 
         private const string _hudChatMessageReceivedName = "OnMultiplayer_ChatMessageReceived";
         private const string _hudChatScriptedMessageReceivedName = "multiplayer_ScriptedChatMessageReceived";
-        
+
         protected static bool HasHud => !Sandbox.Engine.Platform.Game.IsDedicated;
 
         [ReflectedMethod(Name = _hudChatMessageReceivedName)]

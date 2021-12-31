@@ -1,26 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <UseWpf>true</UseWpf>
-    <OutputType>Exe</OutputType>
-    <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <StartupObject>Torch.Server.Program</StartupObject>
-    <ApplicationIcon>torchicon.ico</ApplicationIcon>
-  </PropertyGroup>
-
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="protobuf-net" Version="3.0.101" />
+    <PackageReference Include="SteamKit2" Version="2.4.0" />
+  </ItemGroup>
+  
   <ItemGroup>
     <Reference Include="..\GameBinaries\HavokWrapper.dll" />
     <Reference Include="..\GameBinaries\Sandbox.Common.dll" />
@@ -47,19 +30,4 @@
     <Reference Include="..\GameBinaries\VRage.Scripting.dll" />
     <Reference Include="..\GameBinaries\VRage.Steam.dll" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Torch\Torch.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" PrivateAssets="All" />
-    <PackageReference Include="MdXaml" Version="1.12.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
-    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
-  </ItemGroup>
-
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(SolutionDir)NLog.config" "$(TargetDir)" &amp; copy "$(SolutionDir)NLog-user.config" "$(TargetDir)"</PostBuildEvent>
-  </PropertyGroup>
 </Project>

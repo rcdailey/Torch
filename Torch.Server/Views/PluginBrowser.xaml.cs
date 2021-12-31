@@ -1,27 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Newtonsoft.Json;
+using JetBrains.Annotations;
 using NLog;
 using Torch.API.WebAPI;
 using Torch.Collections;
-using Torch.Server.Annotations;
-using Torch.Managers;
 using Torch.API.Managers;
 
 namespace Torch.Server.Views
@@ -112,14 +103,14 @@ namespace Torch.Server.Views
 
             foreach(PluginItem PluginItem in SelectedItems)
                 TorchBase.Instance.Config.Plugins.Add(new Guid(PluginItem.ID));
-                
+
             TorchBase.Instance.Config.Save();
             Log.Info($"Started to download {SelectedItems.Count} plugin(s)");
 
             PluginDownloader DownloadProgress = new PluginDownloader(SelectedItems);
             DownloadProgress.Show();
         }
-        
+
         private void UninstallButton_OnClick(object sender, RoutedEventArgs e) {
             var SelectedItems = PluginsList.SelectedItems;
             if(SelectedItems.Cast<PluginItem>().Any(x => x.Installed == false)) {
@@ -151,7 +142,7 @@ namespace Torch.Server.Views
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
+
         private void TxtPluginsSearch_GotFocus(object sender, RoutedEventArgs e) {
             if (txtPluginsSearch.Text == PLUGINS_SEARCH_TEXT) {
                 txtPluginsSearch.Clear();

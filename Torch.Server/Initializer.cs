@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -8,13 +7,9 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
 using NLog;
-using NLog.Targets;
 using Sandbox.Engine.Utils;
-using Torch.Utils;
 using VRage.FileSystem;
 
 namespace Torch.Server
