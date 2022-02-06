@@ -1,10 +1,6 @@
-﻿#region
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
@@ -20,11 +16,8 @@ using Torch.Mod;
 using Torch.Mod.Messages;
 using Torch.Server.Commands;
 using Torch.Server.Managers;
-using Torch.Utils;
 using VRage;
 using Timer = System.Threading.Timer;
-
-#endregion
 
 #pragma warning disable 618
 
@@ -275,67 +268,12 @@ namespace Torch.Server
 #if DEBUG
                 Log.Error(
                     $"Server watchdog detected that the server was frozen for at least {((TorchServer) state).Config.TickTimeout} seconds.");
-                Log.Error(DumpFrozenThread(MySandboxGame.Static.UpdateThread));
 #else
-                Log.Error(DumpFrozenThread(MySandboxGame.Static.UpdateThread));
                 throw new TimeoutException($"Server watchdog detected that the server was frozen for at least {((TorchServer)state).Config.TickTimeout} seconds.");
 #endif
             }
 
             Log.Debug("Server watchdog responded");
-        }
-
-        private static string DumpFrozenThread(Thread thread, int traces = 3, int pause = 5000)
-        {
-            var stacks = new List<string>(traces);
-            var totalSize = 0;
-            for (var i = 0; i < traces; i++)
-            {
-                string dump = DumpStack(thread).ToString();
-                totalSize += dump.Length;
-                stacks.Add(dump);
-                Thread.Sleep(pause);
-            }
-
-            string commonPrefix = StringUtils.CommonSuffix(stacks);
-            // Advance prefix to include the line terminator.
-            commonPrefix = commonPrefix.Substring(commonPrefix.IndexOf('\n') + 1);
-
-            var result = new StringBuilder(totalSize - (stacks.Count - 1) * commonPrefix.Length);
-            result.AppendLine($"Frozen thread dump {thread.Name}");
-            result.AppendLine("Common prefix:").AppendLine(commonPrefix);
-            for (var i = 0; i < stacks.Count; i++)
-                if (stacks[i].Length > commonPrefix.Length)
-                {
-                    result.AppendLine($"Suffix {i}");
-                    result.AppendLine(stacks[i].Substring(0, stacks[i].Length - commonPrefix.Length));
-                }
-
-            return result.ToString();
-        }
-
-        private static StackTrace DumpStack(Thread thread)
-        {
-            try
-            {
-                thread.Suspend();
-            }
-            catch
-            {
-                // ignored
-            }
-
-            var stack = new StackTrace(thread, true);
-            try
-            {
-                thread.Resume();
-            }
-            catch
-            {
-                // ignored
-            }
-
-            return stack;
         }
 
         #endregion
